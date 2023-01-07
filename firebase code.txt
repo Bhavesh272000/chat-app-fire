@@ -1,0 +1,47 @@
+import pyrebase
+
+
+firebaseconfig={ 'apiKey': "AIzaSyCyjhogUMbPlIZ2IyiDa9dKg9eqwOlnwbs",
+  'authDomain': "chat-app-fire-9c891.firebaseapp.com",
+  'databaseURL': "https://chat-app-fire-9c891-default-rtdb.firebaseio.com",
+  'projectId': "chat-app-fire-9c891",
+  'storageBucket': "chat-app-fire-9c891.appspot.com",
+  'messagingSenderId': "208756903545",
+  'appId': "1:208756903545:web:41a5903de199d15c5a4ea8"}
+
+firebase=pyrebase.initialize_app(firebaseconfig)
+
+
+#login authentication
+auth=firebase.auth()
+email=input("enter your email : ")
+password=input("enter your password : ")
+try:
+  auth.sign_in_with_email_and_password(email,password)
+  print("succesfully signed in")
+except:
+     print("invalid user or password")
+
+#sign up
+email=input("enter your email : ")
+password=input("enter your password : ")
+confirmpass=input("confirm password")
+if password==confirmpass:
+   try:
+       auth.create_user_with_email_and_password(email,password)
+       print("success!")
+   except:
+       print("email already exists")
+
+
+#storage
+storage=firebase.storage()
+filename=input("enter the  name of the file to upload ")
+cloudfilename=input("enter the name of the file on the cloud")
+storage.child(cloudfilename).put(filename)
+
+#database
+db=firebase.database()
+data={'age':27,'address':"mumbai",'employed':True,'name':"bhavesh"}
+db.push(data)
+
